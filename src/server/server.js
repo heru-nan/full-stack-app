@@ -1,11 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import path from 'path';
 import {connectDB} from './connect-db';
 import './initialize-db';
 import {authenticationRoute} from './authenticate';
 
-const port = 7777;
+const port = process.env.PORT || 7777;
 const app = express();
 
 app.listen(port, console.log("server listening on port ", port));
@@ -15,6 +16,13 @@ app.use(
 );
 
 authenticationRoute(app);
+
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.resolve(__dirname, '../../dist')));
+    app.get('/*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'index.html'))
+    })
+}
 
 
 export const addNewTask = async task => {
