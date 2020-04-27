@@ -11,12 +11,10 @@ import axios from 'axios';
 import {history} from './history';
 
 const url = process.env.NODE_ENV === `production` ? ``: "http://localhost:7777"; 
-console.log("peticion, " + url);
 
 export function* taskCreationSaga(){
     while(true){
-        const {groupID} = yield take(mutations.REQUEST_TASK_CREATION);
-        const ownerID = `U1`;
+        const {groupID, ownerID} = yield take(mutations.REQUEST_TASK_CREATION);
         const taskID = uuidv4();
         yield put(mutations.createTask(groupID, taskID, ownerID));
 
@@ -62,7 +60,6 @@ export function * userAuthenticationSaga(){
             if(!data){
                 throw new Error();
             }
-        console.log("AUTHENTICATEDD", data);
         
         yield put(mutations.setState(data.state));
 
@@ -75,6 +72,21 @@ export function * userAuthenticationSaga(){
             console.log("cant not autenthicate");
             yield put(mutations.processAuthenticateUser(mutations.NOT_AUTHENTICATED));
         }
+    }
+}
+
+export function * createCommentSaga(){
+    while(true){
+        const {taskID, ownerID, content} = yield take(mutations.REQUEST_COMMENT_CREATION);
+
+        const commentID = uuidv4();
+        yield put(mutations.createComment(taskID, ownerID, commentID, content));
+
+        yield axios.post(`${url}/comment/new`, {
+            comment: {
+                owner: ownerID, id: commentID, task: taskID, content
+            }
+        });
 
     }
 }

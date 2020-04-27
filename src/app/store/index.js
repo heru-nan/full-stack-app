@@ -14,11 +14,12 @@ export const store = createStore(
             let {type, authenticated, session} = action;
             switch(type){
                 case mutations.SET_STATE:
-                    return {...userSession, id: action.state.session.id}
+                    return {...userSession, id: action.state.session.id, name: action.state.session.name}
                 case mutations.REQUEST_AUTHENTICATED_USER:
                     return {...userSession, authenticated: mutations.AUTHENTICATED}
                 case mutations.PROCESSING_AUTHENTICATED_USER:
                     return {...userSession, authenticated}
+                
                 default:
                     return userSession;
             }
@@ -52,6 +53,14 @@ export const store = createStore(
             return tasks;
         },
         comments(comments = [], action){
+            switch(action.type){
+                case mutations.SET_STATE:
+                    return action.state.comments;
+                case mutations.CREATE_COMMENT:
+                    return [...comments, {
+                        owner: action.ownerID, id: action.commentID, task: action.taskID, content: action.content
+                    }]
+            }
             return comments;
         },
         users(users = [], action){
@@ -65,6 +74,7 @@ export const store = createStore(
         }
     }),
     applyMiddleware(createLogger(), sagaMiddleware)
+    // createLogger() -> middleware para debugear
 )
 
 for(let saga in sagas){

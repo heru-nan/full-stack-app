@@ -1,13 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
 import { ConnectedTasklist } from "./Tasklist";
-import { Heading } from "@chakra-ui/core";
+import { ConnectedUsername } from "./Username";
 
-export const Dashboard = ({ groups }) => (
+export const Dashboard = ({ groups, id }) => (
   <div>
-    <Heading as="h1">Dashboard</Heading>
+    <h1>
+      Dashboard by <ConnectedUsername id={"U1"} />
+    </h1>
     {groups.map((group) => (
-      <ConnectedTasklist key={group.id} id={group.id} name={group.name} />
+      <ConnectedTasklist
+        key={group.id}
+        id={group.id}
+        name={group.name}
+        owner={group.owner}
+      />
     ))}
   </div>
 );
@@ -15,6 +22,7 @@ export const Dashboard = ({ groups }) => (
 function mapStateToProps(state) {
   return {
     groups: state.groups,
+    id: state.session.id,
   };
 }
 

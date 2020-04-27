@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as mutations from "../store/mutations";
-// chakra imports
-import { Input, Box, Heading, FormControl, Button } from "@chakra-ui/core";
 
 const Login = ({ authenticateUser, authenticated }) => {
   return (
@@ -14,19 +12,15 @@ const Login = ({ authenticateUser, authenticated }) => {
         alignItems: "center",
       }}
     >
-      <Heading>LOGIN</Heading>
-      <form onSubmit={authenticateUser} style={{ maxWidth: "50%" }}>
-        <Input
-          mt={2}
-          mb={2}
+      <h2>LOGIN</h2>
+      <form onSubmit={authenticateUser}>
+        <input
           type="text"
           placeholder="username"
           name="username"
           defaultValue="Dev"
         />
-        <Input
-          mt={2}
-          mb={2}
+        <input
           type="password"
           placeholder="password"
           name="password"
@@ -35,7 +29,9 @@ const Login = ({ authenticateUser, authenticated }) => {
         {authenticated === mutations.NOT_AUTHENTICATED ? (
           <p>login incorrect</p>
         ) : null}
-        <Button type="submit">Login</Button>
+        <button style={{ display: "block" }} type="submit">
+          Login
+        </button>
       </form>
     </div>
   );
