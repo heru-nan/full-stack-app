@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as mutations from "../store/mutations";
+import { Input, Button, Box, Stack } from "@chakra-ui/core";
 
 const TaskDetails = ({
   id,
@@ -13,16 +14,16 @@ const TaskDetails = ({
   setTaskGroup,
   setTaskName,
 }) => (
-  <div>
-    <div>
-      <input value={task.name} onChange={setTaskName} />
-    </div>
-    <div>
-      <button onClick={() => setTaskComplete(id, isComplete)}>
+  <Stack spacing={2} m="5">
+    <Box>
+      <Input value={task.name} onChange={setTaskName} />
+    </Box>
+    <Box>
+      <Button onClick={() => setTaskComplete(id, isComplete)}>
         {isComplete ? `Complete` : `reOpen`}
-      </button>
-    </div>
-    <div>
+      </Button>
+    </Box>
+    <Box>
       <select onChange={setTaskGroup} value={task.group}>
         {groups.map((group) => (
           <option key={group.id} value={group.id}>
@@ -30,11 +31,11 @@ const TaskDetails = ({
           </option>
         ))}
       </select>
-    </div>
+    </Box>
     <Link to="/dashboard">
-      <button>done</button>
+      <Button>done</Button>
     </Link>
-  </div>
+  </Stack>
 );
 
 const mapStateToProps = (state, ownProps) => {

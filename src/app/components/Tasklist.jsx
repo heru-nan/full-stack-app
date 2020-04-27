@@ -2,18 +2,25 @@ import React from "react";
 import { connect } from "react-redux";
 import { requestTaskCreation } from "../store/mutations";
 import { Link } from "react-router-dom";
+import { Heading, Button, Stack, Box, Text } from "@chakra-ui/core";
 
 export const Tasklist = ({ tasks, name, id, createNewTask }) => (
-  <div>
-    <h2>{name}</h2>
-    <div>
+  <div style={{ padding: "10px" }}>
+    <Heading as="h2" size="md">
+      {name}
+    </Heading>
+    <Stack spacing={10}>
       {tasks.map((task) => (
         <Link to={`task/${task.id}`} key={task.id}>
-          <div>{task.name}</div>
+          <Feature
+            title={task.name}
+            desc={task.isComplete ? "complete" : "incomplete"}
+            m="2"
+          />
         </Link>
       ))}
-    </div>
-    <button onClick={() => createNewTask(id)}>new task</button>
+    </Stack>
+    <Button onClick={() => createNewTask(id)}>new task</Button>
   </div>
 );
 
@@ -40,3 +47,14 @@ export const ConnectedTasklist = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Tasklist);
+
+// style components
+
+function Feature({ title, desc, ...rest }) {
+  return (
+    <Box p={5} shadow="md" borderWidth="1px" {...rest}>
+      <Heading fontSize="xl">{title}</Heading>
+      <Text mt={4}>{desc}</Text>
+    </Box>
+  );
+}

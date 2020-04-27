@@ -11,6 +11,7 @@ import axios from 'axios';
 import {history} from './history';
 
 const url = process.env.NODE_ENV === `production` ? ``: "http://localhost:7777"; 
+console.log("peticion, " + url);
 
 export function* taskCreationSaga(){
     while(true){
@@ -55,18 +56,22 @@ export function * userAuthenticationSaga(){
     while(true){
         const  {username, password} = yield take(mutations.REQUEST_AUTHENTICATED_USER);
         try {
+
             const {data} = yield axios.post(`${url}/authenticate`, {username, password});
+
             if(!data){
                 throw new Error();
             }
         console.log("AUTHENTICATEDD", data);
-
+        
         yield put(mutations.setState(data.state));
+
         yield put(mutations.processAuthenticateUser(mutations.AUTHENTICATED));
 
         history.push('/dashboard')
 
         } catch (error) {
+            console.log(error);
             console.log("cant not autenthicate");
             yield put(mutations.processAuthenticateUser(mutations.NOT_AUTHENTICATED));
         }

@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { ConnectedTasklist } from "./Tasklist";
+import { Heading } from "@chakra-ui/core";
 
 export const Dashboard = ({ groups }) => (
   <div>
-    <h1>dashboard</h1>
+    <Heading as="h1">Dashboard</Heading>
     {groups.map((group) => (
       <ConnectedTasklist key={group.id} id={group.id} name={group.name} />
     ))}
