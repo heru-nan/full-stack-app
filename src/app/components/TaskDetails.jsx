@@ -14,16 +14,14 @@ const TaskDetails = ({
   setTaskName,
   createComment,
 }) => (
-  <div>
-    <div>
+  <main>
+    <header>
       <input value={task.name} onChange={setTaskName} />
-    </div>
-    <div>
       <button onClick={() => setTaskComplete(id, isComplete)}>
         {isComplete ? `Complete` : `reOpen`}
       </button>
-    </div>
-    <div>
+    </header>
+    <section className="group">
       <select onChange={setTaskGroup} value={task.group}>
         {groups.map((group) => (
           <option key={group.id} value={group.id}>
@@ -31,22 +29,29 @@ const TaskDetails = ({
           </option>
         ))}
       </select>
-    </div>
-    <form onSubmit={(e) => createComment(e, task.owner)}>
-      <input type="text" placeholder="comment" name="comment" defaultValue="" />
-      <button type="submit">add comment</button>
-    </form>
-    <div>
-      {comments.map((e) => {
-        if (e.task === task.id) {
-          return <div key={e.id}>{e.content}</div>;
-        }
-      })}
-    </div>
+    </section>
+    <section className="comments">
+      <form onSubmit={(e) => createComment(e, task.owner)}>
+        <input
+          type="text"
+          placeholder="comment"
+          name="comment"
+          defaultValue=""
+        />
+        <button type="submit">add comment</button>
+      </form>
+      <ul>
+        {comments.map((e) => {
+          if (e.task === task.id) {
+            return <li key={e.id}>{e.content}</li>;
+          }
+        })}
+      </ul>
+    </section>
     <Link to="/dashboard">
       <button>done</button>
     </Link>
-  </div>
+  </main>
 );
 
 const mapStateToProps = (state, ownProps) => {

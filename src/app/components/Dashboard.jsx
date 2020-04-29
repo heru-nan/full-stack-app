@@ -2,12 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { ConnectedTasklist } from "./Tasklist";
 import { ConnectedUsername } from "./Username";
+import * as mutations from "../store/mutations";
 
-export const Dashboard = ({ groups, id }) => (
-  <div>
-    <h1>
+export const Dashboard = ({ groups, id, logout }) => (
+  <main>
+    <h1 style={{ display: "inline" }}>
       Dashboard by <ConnectedUsername id={"U1"} />
     </h1>
+    <button onClick={logout} style={{ display: "inline", marginLeft: "5px" }}>
+      log out
+    </button>
     {groups.map((group) => (
       <ConnectedTasklist
         key={group.id}
@@ -16,7 +20,7 @@ export const Dashboard = ({ groups, id }) => (
         owner={group.owner}
       />
     ))}
-  </div>
+  </main>
 );
 
 function mapStateToProps(state) {
@@ -25,5 +29,15 @@ function mapStateToProps(state) {
     id: state.session.id,
   };
 }
+function mapDispatchToProps(dispatch) {
+  return {
+    logout() {
+      dispatch(mutations.requestLogut());
+    },
+  };
+}
 
-export const ConnectedDashboard = connect(mapStateToProps)(Dashboard);
+export const ConnectedDashboard = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);

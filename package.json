@@ -34,11 +34,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
-    "@chakra-ui/core": "^0.7.0",
-    "@emotion/core": "^10.0.28",
-    "@emotion/styled": "^10.0.27",
     "axios": "^0.19.2",
-    "emotion-theming": "^10.0.27",
     "history": "^4.10.1",
     "md5": "^2.2.1",
     "react": "^16.13.1",

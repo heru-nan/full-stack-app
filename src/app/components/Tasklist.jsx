@@ -4,17 +4,19 @@ import { requestTaskCreation } from "../store/mutations";
 import { Link } from "react-router-dom";
 
 export const Tasklist = ({ tasks, name, id, createNewTask, owner }) => (
-  <div>
+  <section>
     <h2>{name}</h2>
-    <div>
+    <ul>
       {tasks.map((task) => (
-        <Link to={`task/${task.id}`} key={task.id}>
-          <div>{task.name}</div>
-        </Link>
+        <li key={task.id}>
+          <Link to={`task/${task.id}`}>{task.name}</Link>
+        </li>
       ))}
-    </div>
-    <button onClick={() => createNewTask(id, owner)}>new task</button>
-  </div>
+      <li>
+        <button onClick={() => createNewTask(id, owner)}>new task</button>
+      </li>
+    </ul>
+  </section>
 );
 
 const mapStateToProps = (state, ownProps) => {

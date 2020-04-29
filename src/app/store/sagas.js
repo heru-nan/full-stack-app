@@ -50,6 +50,7 @@ export function* taskModificationSaga(){
     }
 }
 
+
 export function * userAuthenticationSaga(){
     while(true){
         const  {username, password} = yield take(mutations.REQUEST_AUTHENTICATED_USER);
@@ -87,6 +88,20 @@ export function * createCommentSaga(){
                 owner: ownerID, id: commentID, task: taskID, content
             }
         });
+
+    }
+}
+
+export function * logoutSaga(){
+    while(true){
+        const {session} = yield take(mutations.REQUEST_LOGOUT);
+
+        console.log("LOGOUT SESSION: ", session);
+
+        history.push('/')
+
+
+        yield put(mutations.userLogout(session));
 
     }
 }
