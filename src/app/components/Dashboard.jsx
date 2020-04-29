@@ -7,7 +7,7 @@ import * as mutations from "../store/mutations";
 export const Dashboard = ({ groups, id, logout }) => (
   <main>
     <h1 style={{ display: "inline" }}>
-      Dashboard by <ConnectedUsername id={"U1"} />
+      Dashboard by <ConnectedUsername id={id} />
     </h1>
     <button onClick={logout} style={{ display: "inline", marginLeft: "5px" }}>
       log out

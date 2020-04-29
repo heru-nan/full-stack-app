@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as mutations from "../store/mutations";
+import { Link } from "react-router-dom";
 
 const Login = ({ authenticateUser, authenticated }) => {
   return (
@@ -13,7 +14,13 @@ const Login = ({ authenticateUser, authenticated }) => {
       }}
     >
       <h2>LOGIN</h2>
-      <form onSubmit={authenticateUser}>
+      <form
+        onSubmit={authenticateUser}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <input
           type="text"
           placeholder="username"
@@ -29,9 +36,11 @@ const Login = ({ authenticateUser, authenticated }) => {
         {authenticated === mutations.NOT_AUTHENTICATED ? (
           <p>login incorrect</p>
         ) : null}
+        Don't have an account? <Link to="/signin">Sign in</Link>
         <button style={{ display: "block" }} type="submit">
           Login
         </button>
+        <span></span>
       </form>
     </div>
   );

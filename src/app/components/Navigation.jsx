@@ -4,9 +4,11 @@ import React from "react";
 
 const Navigation = () => (
   <nav>
-    <Link to="/dashboard">
-      <h1>my application</h1>
-    </Link>
+    <ul>
+      <Link to="/dashboard">
+        <li>dashboard</li>
+      </Link>
+    </ul>
   </nav>
 );
 

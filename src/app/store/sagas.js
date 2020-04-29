@@ -50,6 +50,29 @@ export function* taskModificationSaga(){
     }
 }
 
+export function * userCreationSaga(){
+    while(true){
+        const {username, password} = yield take(mutations.REQUEST_CREATED_USER);
+
+        try{
+            const {data} = yield axios.post(`${url}/createUser`, {username, password});
+            
+            if(!data.flag){
+                yield put(mutations.processCreateUser(mutations.NOT_CREATED_USER, [data.error]));
+            }else{
+
+            yield put(mutations.processCreateUser(mutations.CREATED_USER));
+            alert("USER CREATE");
+            
+            history.push('/');
+            }
+        }
+        catch(e){
+            console.log(e.message)
+        }
+    }
+}
+
 
 export function * userAuthenticationSaga(){
     while(true){
@@ -105,3 +128,4 @@ export function * logoutSaga(){
 
     }
 }
+

@@ -5,6 +5,7 @@ import path from 'path';
 import {connectDB} from './connect-db';
 import './initialize-db';
 import {authenticationRoute} from './authenticate';
+import {createUserRoute} from './create-user';
 
 const port = process.env.PORT || 7777;
 const app = express();
@@ -16,6 +17,7 @@ app.use(
 );
 
 authenticationRoute(app);
+createUserRoute(app);
 
 if(process.env.NODE_ENV == `production`){
     app.use(express.static(path.resolve(__dirname, '../../dist')));

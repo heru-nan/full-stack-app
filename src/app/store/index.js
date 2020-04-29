@@ -10,7 +10,9 @@ import * as mutations from './mutations';
 
 export const store = createStore(
     combineReducers({
-        session(userSession = defaultState.session || {}, action){
+        session(userSession = defaultState.session || {
+            user: null, error: [], 
+        }, action){
             let {type, authenticated, session} = action;
             switch(type){
                 case mutations.SET_STATE:
@@ -20,8 +22,11 @@ export const store = createStore(
                 case mutations.PROCESSING_AUTHENTICATED_USER:
                     return {...userSession, authenticated}
                 case mutations.LOGOUT:
-                    return action.session;
-                
+                    return {error: []};
+                case mutations.REQUEST_CREATED_USER:
+                    return {...userSession, user: mutations.CREATING_USER}
+                case mutations.PROCESSING_CREATED_USER:
+                    return {...userSession, user: action.user, error: action.error}
                 default:
                     return userSession;
             }
@@ -29,7 +34,7 @@ export const store = createStore(
         tasks(tasks = [], action){
             switch(action.type){
                 case mutations.LOGOUT:
-                    return action.session;
+                    return action.clean;
                 case mutations.SET_STATE:
                     return action.state.tasks;
                 case mutations.CREATE_TASK:
@@ -59,7 +64,7 @@ export const store = createStore(
         comments(comments = [], action){
             switch(action.type){
                 case mutations.LOGOUT:
-                    return action.session;
+                    return action.clean;
                 case mutations.SET_STATE:
                     return action.state.comments;
                 case mutations.CREATE_COMMENT:
@@ -74,10 +79,25 @@ export const store = createStore(
         },
         groups(groups = [], action){
             if(action.type === mutations.SET_STATE){
+                if(action.state.groups.length > 0){
                 return action.state.groups;
+                }
+                return [{
+                    name:"To Do",
+                    id:"G1",
+                    owner:action.state.session.id
+                },{
+                    name:"Doing",
+                    id:"G2",
+                    owner:action.state.session.id
+                },{
+                    name:"Done",
+                    id:"G3",
+                    owner:action.state.session.id
+                }]
             }
             if(action.type === mutations.LOGOUT){
-                return action.session;
+                return action.clean;
             }
             return groups;
         }
