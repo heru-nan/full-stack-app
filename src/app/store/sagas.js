@@ -1,7 +1,7 @@
 import {
     take,
     put,
-    select
+    call
 } from 'redux-saga/effects';
 import * as mutations from './mutations';
 
@@ -14,19 +14,19 @@ const url = process.env.NODE_ENV === `production` ? ``: "http://localhost:7777";
 
 export function* taskCreationSaga(){
     while(true){
-        const {groupID, ownerID} = yield take(mutations.REQUEST_TASK_CREATION);
-        const taskID = uuidv4();
-        yield put(mutations.createTask(groupID, taskID, ownerID));
+        const {groupID, ownerID, name} = yield take(mutations.REQUEST_TASK_CREATION);
 
-        const {res} = yield axios.post(`${url}/task/new`, {
+        const res = yield axios.post(`${url}/task/new`, {
             task: {
-                id: taskID,
                 group: groupID,
                 owner: ownerID,
                 isComplete: false,
-                name: "new Task"
+                name
             }
         })
+        const taskID = res.data._id;
+        yield put(mutations.createTask(groupID, taskID, ownerID, name));
+
 
     }
 }
@@ -47,6 +47,29 @@ export function* taskModificationSaga(){
 
             }
         })
+    }
+}
+
+export function * taskDeleteSaga(){
+    while(true){
+        const {id} = yield take(mutations.DELETE_TASK);
+        console.log(id);
+       try {
+        const res = yield call(axios.post, `${url}/task/delete`, {id})   
+        console.log(res);
+        yield put({type: mutations.DELETE_TASK_SUCCESS, id});
+        history.push('/dashboard');
+
+
+       } catch (error) {
+           yield put({type: mutations.DELETE_TASK_FAILED, error});
+       }
+    }
+}
+
+export function * requests(){
+    while(true){
+        yield take(mutations.DELETE_TASK, taskDeleteSaga);
     }
 }
 

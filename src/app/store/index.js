@@ -40,8 +40,8 @@ export const store = createStore(
                 case mutations.CREATE_TASK:
                     return [
                         ...tasks, {
-                            id: action.taskID,
-                            name: "new task",
+                            _id: action.taskID,
+                            name: action.name,
                             group: action.groupID,
                             owner: action.ownerID,
                             isComplete: false,
@@ -56,8 +56,14 @@ export const store = createStore(
                     })
                 case mutations.SET_TASK_NAME:
                     return tasks.map(task => {
-                        return task.id === action.taskID ? {...task, name: action.name} : task;
+                        return task._id === action.taskID ? {...task, name: action.name} : task;
                     })
+                case mutations.DELETE_TASK_SUCCESS:
+                    const filterTask=  tasks.filter(task =>{
+                        return task._id.toString() !== action.id.toString();
+                    })
+                    return filterTask;
+                
             }
             return tasks;
         },

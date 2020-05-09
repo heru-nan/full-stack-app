@@ -6,6 +6,7 @@ import {connectDB} from './connect-db';
 import './initialize-db';
 import {authenticationRoute} from './authenticate';
 import {createUserRoute} from './create-user';
+import { taskRoute } from './tasks';
 
 const port = process.env.PORT || 7777;
 const app = express();
@@ -18,6 +19,7 @@ app.use(
 
 authenticationRoute(app);
 createUserRoute(app);
+taskRoute(app);
 
 if(process.env.NODE_ENV == `production`){
     app.use(express.static(path.resolve(__dirname, '../../dist')));
@@ -27,29 +29,6 @@ if(process.env.NODE_ENV == `production`){
 }
 
 
-export const addNewTask = async task => {
-    let db = await connectDB();
-    let collection = db.collection("tasks");
-    await collection.insertOne(task);
-}
-
-export const updateTask = async task => {
-    let {id, group, isComplete, name} = task;
-    let db = await connectDB();
-    let collection = db.collection("tasks");
-    
-    if(group){
-        await collection.updateOne({id}, {$set:{group}});
-    }
-     
-    if(name){
-        await collection.updateOne({id}, {$set:{name}});
-    }
-     
-    if(isComplete !== undefined){
-        await collection.updateOne({id}, {$set:{isComplete}});
-    }
-}
 
 export const addNewComment = async comment => {
     let db = await connectDB();
@@ -57,19 +36,7 @@ export const addNewComment = async comment => {
     await collection.insertOne(comment);
 }
 
-app.post('/task/new', async (req, res) => {
-    let task = req.body.task;
 
-    await addNewTask(task);
-    res.status(200).send();
-});
-
-app.post ('/task/update', async (req, res) => {
-    let task = req.body.task;
-    
-    await updateTask(task);
-    res.status(200).send();
-})
 
 app.post('/comment/new', async (req, res) => {
     let comment = req.body.comment;

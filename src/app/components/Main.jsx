@@ -24,7 +24,11 @@ export const Main = () => (
       <Route exact path="/" component={ConnectedLogin} />
       <Route exact path="/signin" component={ConnectedSignin} />
       <Route exact path="/dashboard" render={RouteGuard(ConnectedDashboard)} />
-      <Route exact path="/task/:id" render={RouteGuard(ConnectedTaskDetails)} />
+      <Route
+        exact
+        path="/task/:_id"
+        render={RouteGuard(ConnectedTaskDetails)}
+      />
     </Provider>
   </Router>
 );

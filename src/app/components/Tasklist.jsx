@@ -1,23 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { requestTaskCreation } from "../store/mutations";
 import { Link } from "react-router-dom";
 
-export const Tasklist = ({ tasks, name, id, createNewTask, owner }) => (
-  <section>
-    <h2>{name}</h2>
-    <ul>
-      {tasks.map((task) => (
-        <li key={task.id}>
-          <Link to={`task/${task.id}`}>{task.name}</Link>
+export const Tasklist = ({ tasks, name, id, createNewTask, owner }) => {
+  const [showinput, setShowinput] = useState(false);
+
+  return (
+    <section>
+      <h2>{name}</h2>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task._id}>
+            <Link to={`task/${task._id}`}>{task.name}</Link>
+          </li>
+        ))}
+        <li style={{ display: showinput && "none" }}>
+          <button
+            onClick={() => {
+              setShowinput(true);
+            }}
+          >
+            new task
+          </button>
         </li>
-      ))}
-      <li>
-        <button onClick={() => createNewTask(id, owner)}>new task</button>
-      </li>
-    </ul>
-  </section>
-);
+        <li style={{ display: !showinput && "none" }}>
+          <form
+            onSubmit={(e) => {
+              createNewTask(e, id, owner);
+              setShowinput(false);
+            }}
+          >
+            <input type="text" placeholder="task" name="task" defaultValue="" />
+            <button type="submit">add task</button>
+          </form>
+        </li>
+      </ul>
+    </section>
+  );
+};
 
 const mapStateToProps = (state, ownProps) => {
   let groupID = ownProps.id;
@@ -31,9 +52,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    createNewTask(id, owner) {
+    createNewTask(e, id, owner) {
+      e.preventDefault();
       console.log(`new task created with id: ${id}`);
-      dispatch(requestTaskCreation(id, owner));
+      const name = e.target["task"].value;
+      dispatch(requestTaskCreation(id, owner, name));
     },
   };
 };

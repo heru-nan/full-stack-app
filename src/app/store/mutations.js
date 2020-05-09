@@ -1,6 +1,12 @@
 export const REQUEST_TASK_CREATION = `REQUEST_TASK_CREATION`;
 export const REQUEST_AUTHENTICATED_USER = `REQUEST_AUTHENTICATED_USER`;
 export const CREATE_TASK = `CREATE_TASK`;
+
+export const DELETE_TASK = `DELETE_TASK`;
+export const DELETE_TASK_SUCCESS = `DELETE_TASK_SUCCESS`;
+export const DELETE_TASK_FAILED = `DELETE_TASK_FAILED`;
+
+
 export const SET_TASK_COMPLETE = `SET_TASK_COMPLETE`;
 export const SET_TASK_NAME = `SET_TASK_NAME`;
 export const SET_TASK_GROUP = `SET_TASK_GROUP`;
@@ -19,6 +25,9 @@ export const PROCESSING_CREATED_USER = `PROCESSING_CREATED_USER`;
  
 export const REQUEST_COMMENT_CREATION = `REQUEST_COMMENT_CREATION`;
 export const CREATE_COMMENT = `CREATE_COMMENT`;
+
+
+
 
 export const requestCreateUser = (username, password) => ({
     type: REQUEST_CREATED_USER,
@@ -61,14 +70,14 @@ export const requestAuthenticateUser = (username, password) => ({
     password,
 })
 
-export const requestTaskCreation = (groupID, ownerID) =>  ({
+export const requestTaskCreation = (groupID, ownerID, name) =>  ({
     type: REQUEST_TASK_CREATION,
-    groupID, ownerID
+    groupID, ownerID, name
 });
 
-export const createTask = (groupID, taskID, ownerID) => ({
+export const createTask = (groupID, taskID, ownerID, name) => ({
     type: CREATE_TASK,
-    groupID, taskID, ownerID
+    groupID, taskID, ownerID, name
 })
 
 export const setTaskCompletation = (id, isComplete) => ({
