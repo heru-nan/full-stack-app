@@ -1,4 +1,5 @@
 import {defaultState} from './defaultState';
+// const defaultState = {};
 import { connectDB} from './connect-db';
 
 async function initializeDB(){

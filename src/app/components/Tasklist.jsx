@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import { requestTaskCreation } from "../store/mutations";
 import { Link } from "react-router-dom";
+import FormList from "./FormSection";
 
-export const Tasklist = ({ tasks, name, id, createNewTask, owner }) => {
-  const [showinput, setShowinput] = useState(false);
-
+export const Tasklist = ({ tasks, name, handleTaskSubmit }) => {
   return (
     <section>
       <h2>{name}</h2>
@@ -15,26 +14,7 @@ export const Tasklist = ({ tasks, name, id, createNewTask, owner }) => {
             <Link to={`task/${task._id}`}>{task.name}</Link>
           </li>
         ))}
-        <li style={{ display: showinput && "none" }}>
-          <button
-            onClick={() => {
-              setShowinput(true);
-            }}
-          >
-            new task
-          </button>
-        </li>
-        <li style={{ display: !showinput && "none" }}>
-          <form
-            onSubmit={(e) => {
-              createNewTask(e, id, owner);
-              setShowinput(false);
-            }}
-          >
-            <input type="text" placeholder="task" name="task" defaultValue="" />
-            <button type="submit">add task</button>
-          </form>
-        </li>
+        <FormList submit={handleTaskSubmit} />
       </ul>
     </section>
   );
@@ -45,16 +25,15 @@ const mapStateToProps = (state, ownProps) => {
   return {
     name: ownProps.name,
     owner: ownProps.owner,
-    id: groupID,
     tasks: state.tasks.filter((task) => task.group === groupID),
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+  let { id, owner } = ownProps;
   return {
-    createNewTask(e, id, owner) {
+    handleTaskSubmit(e) {
       e.preventDefault();
-      console.log(`new task created with id: ${id}`);
       const name = e.target["task"].value;
       dispatch(requestTaskCreation(id, owner, name));
     },

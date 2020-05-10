@@ -7,9 +7,10 @@ export const DELETE_TASK_SUCCESS = `DELETE_TASK_SUCCESS`;
 export const DELETE_TASK_FAILED = `DELETE_TASK_FAILED`;
 
 
-export const SET_TASK_COMPLETE = `SET_TASK_COMPLETE`;
+export const SET_TASK_STATE = `SET_TASK_STATE`;
 export const SET_TASK_NAME = `SET_TASK_NAME`;
 export const SET_TASK_GROUP = `SET_TASK_GROUP`;
+
 export const PROCESSING_AUTHENTICATED_USER = `PROCESSING_AUTHENTICATED_USER`;
 export const AUTHENTICATING = `AUTHENTICATING`;
 export const AUTHENTICATED = `AUTHENTICATED`;
@@ -80,9 +81,9 @@ export const createTask = (groupID, taskID, ownerID, name) => ({
     groupID, taskID, ownerID, name
 })
 
-export const setTaskCompletation = (id, isComplete) => ({
-    type: SET_TASK_COMPLETE,
-    taskID: id, isComplete
+export const changeStateTask = (id) => ({
+    type: SET_TASK_STATE,
+    taskID: id
 })
 
 export const setTaskGroup = (id, groupID) => ({

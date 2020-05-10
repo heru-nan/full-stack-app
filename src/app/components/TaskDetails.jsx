@@ -4,58 +4,58 @@ import { Link } from "react-router-dom";
 import * as mutations from "../store/mutations";
 
 const TaskDetails = ({
-  id,
   comments,
   task,
   groups,
-  setTaskComplete,
+  changeStateTask,
   setTaskGroup,
   setTaskName,
   createComment,
   deleteTask,
 }) => {
-  console.log(task);
-  return task ? (
-    <main>
-      <header>
-        <input value={task.name} onChange={setTaskName} />
-        <button onClick={() => setTaskComplete(id, task.isComplete)}>
-          {task.isComplete ? `Complete` : `reOpen`}
-        </button>
-      </header>
-      <section className="group">
-        <select onChange={setTaskGroup} value={task.group}>
-          {groups.map((group) => (
-            <option key={group.id} value={group.id}>
-              {group.name}
-            </option>
-          ))}
-        </select>
-      </section>
-      <section className="comments">
-        <form onSubmit={(e) => createComment(e, task.owner)}>
-          <input
-            type="text"
-            placeholder="comment"
-            name="comment"
-            defaultValue=""
-          />
-          <button type="submit">add comment</button>
-        </form>
-        <ul>
-          {comments.map((e) => {
-            if (e.task === task.id) {
-              return <li key={e.id}>{e.content}</li>;
-            }
-          })}
-        </ul>
-      </section>
-      <Link to="/dashboard">
-        <button>done</button>
-      </Link>
-      <button onClick={deleteTask}>delete</button>
-    </main>
-  ) : null;
+  return (
+    task && (
+      <main>
+        <header>
+          <input value={task.name} onChange={setTaskName} />
+          <button onClick={() => changeStateTask(task.isComplete)}>
+            {task.isComplete ? `Complete` : `Incomplete`}
+          </button>
+        </header>
+        <section className="group">
+          <select onChange={setTaskGroup} value={task.group}>
+            {groups.map((group) => (
+              <option key={group.id} value={group.id}>
+                {group.name}
+              </option>
+            ))}
+          </select>
+        </section>
+        <section className="comments">
+          <form onSubmit={(e) => createComment(e, task.owner)}>
+            <input
+              type="text"
+              placeholder="comment"
+              name="comment"
+              defaultValue=""
+            />
+            <button type="submit">add comment</button>
+          </form>
+          <ul>
+            {comments.map((e) => {
+              if (e.task === task._id) {
+                return <li key={e._id}>{e.content}</li>;
+              }
+            })}
+          </ul>
+        </section>
+        <Link to="/dashboard">
+          <button>done</button>
+        </Link>
+        <button onClick={deleteTask}>delete</button>
+      </main>
+    )
+  );
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -67,7 +67,6 @@ const mapStateToProps = (state, ownProps) => {
     id,
     task,
     groups,
-
     comments: state.comments,
   };
 };
@@ -78,14 +77,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     deleteTask() {
       dispatch({ type: mutations.DELETE_TASK, id });
     },
-    createComment(e, task) {
+    createComment(e, owner) {
       e.preventDefault();
       let content = e.target[`comment`].value;
-      dispatch(mutations.requestCommentCreation(id, task, content));
+      dispatch(mutations.requestCommentCreation(id, owner, content));
       e.target.reset();
     },
-    setTaskComplete(id, isComplete) {
-      dispatch(mutations.setTaskCompletation(id, isComplete));
+    changeStateTask() {
+      dispatch(mutations.changeStateTask(id));
     },
     setTaskGroup(e) {
       dispatch(mutations.setTaskGroup(id, e.target.value));

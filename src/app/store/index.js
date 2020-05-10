@@ -47,12 +47,12 @@ export const store = createStore(
                             isComplete: false,
                         }
                     ]
-                case mutations.SET_TASK_COMPLETE:
+                case mutations.SET_TASK_STATE:
                     return tasks.map(task => {
-                        return task.id === action.taskID ? {...task, isComplete: !action.isComplete} : task})
+                        return task._id === action.taskID ? {...task, isComplete: !task.isComplete} : task})
                 case mutations.SET_TASK_GROUP:
                     return tasks.map(task => {
-                        return task.id === action.taskID ? {...task, group: action.groupID}: task
+                        return task._id === action.taskID ? {...task, group: action.groupID}: task
                     })
                 case mutations.SET_TASK_NAME:
                     return tasks.map(task => {
@@ -75,7 +75,7 @@ export const store = createStore(
                     return action.state.comments;
                 case mutations.CREATE_COMMENT:
                     return [...comments, {
-                        owner: action.ownerID, id: action.commentID, task: action.taskID, content: action.content
+                        owner: action.ownerID, _id: action.commentID, task: action.taskID, content: action.content
                     }]
             }
             return comments;

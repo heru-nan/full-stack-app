@@ -1,7 +1,8 @@
 import {
     take,
     put,
-    call
+    call,
+    select
 } from 'redux-saga/effects';
 import * as mutations from './mutations';
 
@@ -31,18 +32,36 @@ export function* taskCreationSaga(){
     }
 }
 
+
+
 export function* taskModificationSaga(){
     while(true){
-        const task = yield take([
-            mutations.SET_TASK_COMPLETE,
+        const change = yield take([
+            mutations.SET_TASK_STATE,
             mutations.SET_TASK_GROUP,
             mutations.SET_TASK_NAME,
         ]);
+        
+        const task = yield select(state => state.tasks.reduce((acum, task) => {
+            if(!acum){
+                if(task._id === change.taskID){
+                    return task;
+                } 
+            }else{
+                if(acum._id === change.taskID){
+                    return acum;
+                }
+            }
+            
+        }));
+
+        console.log(task)
+        
         axios.post(`${url}/task/update`, {
             task: {
-                id: task.taskID,
+                id: task._id,
                 name: task.name,
-                group: task.groupID,
+                group: task.group,
                 isComplete: task.isComplete,
 
             }
@@ -131,7 +150,7 @@ export function * createCommentSaga(){
 
         yield axios.post(`${url}/comment/new`, {
             comment: {
-                owner: ownerID, id: commentID, task: taskID, content
+                owner: ownerID, _id: commentID, task: taskID, content
             }
         });
 
