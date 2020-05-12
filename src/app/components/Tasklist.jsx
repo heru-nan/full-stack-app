@@ -6,7 +6,7 @@ import FormList from "./FormSection";
 
 export const Tasklist = ({ tasks, name, handleTaskSubmit }) => {
   return (
-    <section>
+    <section className="card-group">
       <h2>{name}</h2>
       <ul>
         {tasks.map((task) => (

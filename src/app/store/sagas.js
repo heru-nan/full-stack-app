@@ -42,19 +42,8 @@ export function* taskModificationSaga(){
             mutations.SET_TASK_NAME,
         ]);
         
-        const task = yield select(state => state.tasks.reduce((acum, task) => {
-            if(!acum){
-                if(task._id === change.taskID){
-                    return task;
-                } 
-            }else{
-                if(acum._id === change.taskID){
-                    return acum;
-                }
-            }
-            
-        }));
-
+        const tasks = yield select(state => state.tasks.filter(task => task._id === change.taskID));
+        const task = tasks[0];
         console.log(task)
         
         axios.post(`${url}/task/update`, {

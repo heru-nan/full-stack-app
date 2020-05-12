@@ -15,14 +15,21 @@ const TaskDetails = ({
 }) => {
   return (
     task && (
-      <main>
-        <header>
+      <main className="container">
+        <h2>
+          details of
+          <br />
+          <span style={{ color: "#5eba7d" }}>{task.name}</span>
+        </h2>
+        <section>
+          <h2>change name and state</h2>
           <input value={task.name} onChange={setTaskName} />
           <button onClick={() => changeStateTask(task.isComplete)}>
             {task.isComplete ? `Complete` : `Incomplete`}
           </button>
-        </header>
-        <section className="group">
+        </section>
+        <section>
+          <h2>change group</h2>
           <select onChange={setTaskGroup} value={task.group}>
             {groups.map((group) => (
               <option key={group.id} value={group.id}>
@@ -31,7 +38,8 @@ const TaskDetails = ({
             ))}
           </select>
         </section>
-        <section className="comments">
+        <section>
+          <h2>comments</h2>
           <form onSubmit={(e) => createComment(e, task.owner)}>
             <input
               type="text"
@@ -49,10 +57,12 @@ const TaskDetails = ({
             })}
           </ul>
         </section>
-        <Link to="/dashboard">
-          <button>done</button>
-        </Link>
-        <button onClick={deleteTask}>delete</button>
+        <div>
+          <Link to="/dashboard">
+            <button>done</button>
+          </Link>
+          <button onClick={deleteTask}>delete</button>
+        </div>
       </main>
     )
   );

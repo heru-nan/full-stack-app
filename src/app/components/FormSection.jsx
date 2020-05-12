@@ -33,7 +33,7 @@ const FormSection = ({ submit }) => {
           value="cancel"
           name="cancel"
         >
-          cancel
+          c
         </button>
       </form>
     </li>

@@ -5,13 +5,13 @@ import { ConnectedUsername } from "./Username";
 import * as mutations from "../store/mutations";
 
 export const Dashboard = ({ groups, id, logout }) => (
-  <main>
+  <main className="container">
     <h1 style={{ display: "inline" }}>
       Dashboard by <ConnectedUsername id={id} />
     </h1>
-    <button onClick={logout} style={{ display: "inline", marginLeft: "5px" }}>
+    {/* <button onClick={logout} style={{ display: "inline" }}>
       log out
-    </button>
+    </button> */}
     {groups.map((group) => (
       <ConnectedTasklist
         key={group.id}
