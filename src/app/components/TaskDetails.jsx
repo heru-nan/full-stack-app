@@ -16,7 +16,12 @@ const TaskDetails = ({
   return (
     task && (
       <main className="container">
-        <h2>
+        <h2
+          style={{
+            maxWidth: "90%",
+            wordWrap: "break-word",
+          }}
+        >
           details of
           <br />
           <span style={{ color: "#5eba7d" }}>{task.name}</span>
@@ -52,7 +57,11 @@ const TaskDetails = ({
           <ul>
             {comments.map((e) => {
               if (e.task === task._id) {
-                return <li key={e._id}>{e.content}</li>;
+                return (
+                  <li key={e._id}>
+                    <p>{e.content}</p>
+                  </li>
+                );
               }
             })}
           </ul>
