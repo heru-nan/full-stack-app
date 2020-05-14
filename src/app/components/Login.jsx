@@ -2,46 +2,27 @@ import React from "react";
 import { connect } from "react-redux";
 import * as mutations from "../store/mutations";
 import { Link } from "react-router-dom";
+import TextField from "./atomic/TextField";
 
 const Login = ({ authenticateUser, authenticated }) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <h2>LOGIN</h2>
-      <form
-        onSubmit={authenticateUser}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <input
-          type="text"
-          placeholder="username"
-          name="username"
-          defaultValue="Dev"
-        />
-        <input
-          type="password"
-          placeholder="password"
-          name="password"
-          defaultValue=""
-        />
-        {authenticated === mutations.NOT_AUTHENTICATED ? (
-          <p>login incorrect</p>
-        ) : null}
-        Don't have an account? <Link to="/signin">Sign in</Link>
-        <button style={{ display: "block" }} type="submit">
-          Login
-        </button>
-        <span></span>
+    <div className="container">
+      <h2>
+        Groups Tasks & Comments <small>Login</small>
+      </h2>
+
+      <form onSubmit={authenticateUser}>
+        <TextField type="text" name="username" label="user" />
+        <TextField type="password" name="password" label="password" />
+        <span>
+          Don't have an account? <Link to="/signin">Sign in</Link>
+        </span>
+        <button type="submit">Login</button>
       </form>
+
+      {authenticated === mutations.NOT_AUTHENTICATED ? (
+        <p>login incorrect</p>
+      ) : null}
     </div>
   );
 };
