@@ -7,6 +7,7 @@ import './initialize-db';
 import {authenticationRoute} from './authenticate';
 import {createUserRoute} from './create-user';
 import { taskRoute } from './tasks';
+import { groupRoute } from './groups';
 
 const port = process.env.PORT || 7777;
 const app = express();
@@ -20,6 +21,7 @@ app.use(
 authenticationRoute(app);
 createUserRoute(app);
 taskRoute(app);
+groupRoute(app);
 
 if(process.env.NODE_ENV == `production`){
     app.use(express.static(path.resolve(__dirname, '../../dist')));

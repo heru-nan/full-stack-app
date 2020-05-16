@@ -13,6 +13,70 @@ import {history} from './history';
 
 const url = process.env.NODE_ENV === `production` ? ``: "http://localhost:7777"; 
 
+
+export function* groupDeleteSaga(){
+    while(true){
+        const {id} = yield take([mutations.REQUEST_DELETE_GROUP]);
+        
+        const res = yield axios.post(`${url}/group/delete`, {id});
+
+        if(res.status=== 200){
+            yield put({type: mutations.DELETE_GROUP, id});
+        }
+    }
+}
+export function* groupCreationSaga(){
+    while(true){
+        yield take([mutations.REQUEST_GROUP_CREATION]);
+
+        const session = yield select(state => state.session);
+        const group = {
+            name: "generic group",
+            owner: session.id
+        }
+
+        try{
+            const res =  yield axios.post(`${url}/group/new`, {
+                group
+            });
+            const newGroup = res.data;
+            yield put(mutations.addNewGroup(newGroup));
+        }catch(e){
+            console.error("hehe")
+        }
+
+
+    }
+}
+
+
+export function* groupModificationSaga(){
+    while(true){
+        const change = yield take([
+            mutations.SET_GROUP_NAME,
+        ]);
+        console.log("change",change)
+        const group = yield select(state => state.groups.filter(group => group._id === change.groupID)[0]);
+
+
+        const res = yield axios.post(`${url}/group/update`,{
+            group:{
+                id: group._id,
+                name: group.name,
+                owner: group.owner,
+            }
+        });
+
+        console.log(res);
+
+        
+
+    }
+}
+
+
+
+
 export function* taskCreationSaga(){
     while(true){
         const {groupID, ownerID, name} = yield take(mutations.REQUEST_TASK_CREATION);
@@ -21,8 +85,8 @@ export function* taskCreationSaga(){
             task: {
                 group: groupID,
                 owner: ownerID,
-                isComplete: false,
-                name
+                name,
+                isComplete: false
             }
         })
         const taskID = res.data._id;
@@ -31,6 +95,7 @@ export function* taskCreationSaga(){
 
     }
 }
+
 
 
 
@@ -49,8 +114,8 @@ export function* taskModificationSaga(){
         axios.post(`${url}/task/update`, {
             task: {
                 id: task._id,
-                name: task.name,
                 group: task.group,
+                name: task.name,
                 isComplete: task.isComplete,
 
             }
@@ -61,10 +126,8 @@ export function* taskModificationSaga(){
 export function * taskDeleteSaga(){
     while(true){
         const {id} = yield take(mutations.DELETE_TASK);
-        console.log(id);
        try {
         const res = yield call(axios.post, `${url}/task/delete`, {id})   
-        console.log(res);
         yield put({type: mutations.DELETE_TASK_SUCCESS, id});
         history.push('/dashboard');
 
@@ -111,21 +174,23 @@ export function * userAuthenticationSaga(){
         try {
 
             const {data} = yield axios.post(`${url}/authenticate`, {username, password});
-
+            
             if(!data){
                 throw new Error();
             }
-        
+            if(data.state.groups.length){
+                console.log(data.state.groups)
+            }
         yield put(mutations.setState(data.state));
 
-        yield put(mutations.processAuthenticateUser(mutations.AUTHENTICATED));
+        yield put(mutations.processAuthenticateUser(mutations.AUTHENTICATED, {}));
 
         history.push('/dashboard')
 
         } catch (error) {
             console.log(error);
             console.log("cant not autenthicate");
-            yield put(mutations.processAuthenticateUser(mutations.NOT_AUTHENTICATED));
+            yield put(mutations.processAuthenticateUser(mutations.NOT_AUTHENTICATED, {}));
         }
     }
 }
@@ -139,7 +204,7 @@ export function * createCommentSaga(){
 
         yield axios.post(`${url}/comment/new`, {
             comment: {
-                owner: ownerID, _id: commentID, task: taskID, content
+                _id: commentID, owner: ownerID, task: taskID, content
             }
         });
 

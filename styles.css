@@ -21,7 +21,7 @@ h2 small {
 nav {
   position: absolute;
   top: 0px;
-  left: 0px;
+  right: 5px;
 }
 
 section {

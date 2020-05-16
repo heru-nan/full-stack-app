@@ -19,6 +19,14 @@ export const SET_TASK_STATE = `SET_TASK_STATE`;
 export const SET_TASK_NAME = `SET_TASK_NAME`;
 export const SET_TASK_GROUP = `SET_TASK_GROUP`;
 
+export const GROUP_NAME = `GROUP_NAME`;
+export const SET_GROUP_NAME = `SET_GROUP_NAME`;
+
+export const REQUEST_GROUP_CREATION = `REQUEST_GROUP_CREATION`;
+export const CREATE_GROUP = `CREATE_GROUP`;
+export const REQUEST_DELETE_GROUP = `REQUEST_DELETE_GROUP`;
+export const DELETE_GROUP = `DELETE_GROUP`;
+
 export const SET_STATE = `SET_STATE`;
 
 export const REQUEST_LOGOUT = `REQUEST_LOGOUT`;
@@ -66,7 +74,7 @@ export const requestCommentCreation = (taskID, ownerID, content) => ({
 
 export const processAuthenticateUser = (status = AUTHENTICATING, session = null) => ({
     type: PROCESSING_AUTHENTICATED_USER,
-    session, authenticated: status,
+    session, authenticated: status===AUTHENTICATED?true:false,
 })
 
 export const requestAuthenticateUser = (username, password) => ({
@@ -105,4 +113,14 @@ export const setTaskName = (id, name) => ({
 export const setState = (state = {} ) => ({
     type: SET_STATE,
     state,
+})
+
+export const setGroupName = (id) => ({
+    type: SET_GROUP_NAME,
+    groupID: id,
+})
+
+export const addNewGroup = (group) => ({
+    type: CREATE_GROUP,
+    group,
 })

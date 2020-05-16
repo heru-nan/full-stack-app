@@ -3,14 +3,13 @@ import * as mutations from './mutations';
 
 
 function session(userSession= {
-    user: null, error: [], 
+     error: [], 
 }, action){
     let {type, authenticated} = action;
     switch(type){
         case mutations.SET_STATE:
             return {...userSession, id: action.state.session.id, name: action.state.session.name}
-        case mutations.REQUEST_AUTHENTICATED_USER:
-            return {...userSession, authenticated: mutations.AUTHENTICATED}
+
         case mutations.PROCESSING_AUTHENTICATED_USER:
             return {...userSession, authenticated}
         case mutations.LOGOUT:
@@ -79,28 +78,24 @@ function users(users = [], action){
 };
 
 function groups(groups = [], action){
-    if(action.type === mutations.SET_STATE){
-        if(action.state.groups.length > 0){
-        return action.state.groups;
-        }
-        return [{
-            name:"To Do",
-            id:"G1",
-            owner:action.state.session.id
-        },{
-            name:"Doing",
-            id:"G2",
-            owner:action.state.session.id
-        },{
-            name:"Done",
-            id:"G3",
-            owner:action.state.session.id
-        }]
+    switch (action.type) {
+        case mutations.SET_STATE:
+            if(action.state.groups.length > 0){
+                return action.state.groups;
+                }
+            return groups;
+        case mutations.CREATE_GROUP:
+            return [...groups, {...action.group}];
+        case mutations.DELETE_GROUP:
+            return groups.filter(group => group._id !== action.id);
+        case mutations.GROUP_NAME:
+            return groups.map(group => 
+                group._id.toString() === action.id? {...group, name: action.name} : group
+            );
+        default:
+            return groups;
     }
-    if(action.type === mutations.LOGOUT){
-        return action.clean;
-    }
-    return groups;
+    
 }
 
 const appReducers = combineReducers({

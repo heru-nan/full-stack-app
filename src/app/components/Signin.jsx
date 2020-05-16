@@ -3,14 +3,7 @@ import { connect } from "react-redux";
 import * as mutations from "../store/mutations";
 
 const Signin = ({ requestSignin, ocuppied }) => (
-  <main
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
+  <main className="container">
     <h1>Signin</h1>
     <section>
       <form

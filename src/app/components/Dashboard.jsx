@@ -4,22 +4,20 @@ import { ConnectedTasklist } from "./Tasklist";
 import { ConnectedUsername } from "./Username";
 import * as mutations from "../store/mutations";
 
-export const Dashboard = ({ groups, id, logout }) => (
+export const Dashboard = ({ groups, id, addNewGroup }) => (
   <main className="container">
     <h1 style={{ display: "inline" }}>
       Dashboard by <ConnectedUsername id={id} />
     </h1>
-    {/* <button onClick={logout} style={{ display: "inline" }}>
-      log out
-    </button> */}
     {groups.map((group) => (
       <ConnectedTasklist
-        key={group.id}
-        id={group.id}
+        key={group._id}
+        id={group._id}
         name={group.name}
         owner={group.owner}
       />
     ))}
+    <button onClick={addNewGroup}>+</button>
   </main>
 );
 
@@ -33,6 +31,11 @@ function mapDispatchToProps(dispatch) {
   return {
     logout() {
       dispatch(mutations.requestLogut());
+    },
+    addNewGroup() {
+      dispatch({
+        type: mutations.REQUEST_GROUP_CREATION,
+      });
     },
   };
 }

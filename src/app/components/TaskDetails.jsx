@@ -22,7 +22,7 @@ const TaskDetails = ({
             wordWrap: "break-word",
           }}
         >
-          details of
+          task details
           <br />
           <span style={{ color: "#5eba7d" }}>{task.name}</span>
         </h2>
@@ -37,7 +37,7 @@ const TaskDetails = ({
           <h2>change group</h2>
           <select onChange={setTaskGroup} value={task.group}>
             {groups.map((group) => (
-              <option key={group.id} value={group.id}>
+              <option key={group._id} value={group._id}>
                 {group.name}
               </option>
             ))}

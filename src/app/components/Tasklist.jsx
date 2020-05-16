@@ -1,14 +1,56 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { requestTaskCreation } from "../store/mutations";
+import {
+  requestTaskCreation,
+  GROUP_NAME,
+  setGroupName,
+  REQUEST_DELETE_GROUP,
+} from "../store/mutations";
 import { Link } from "react-router-dom";
 import FormList from "./FormSection";
 
-export const Tasklist = ({ tasks, name, handleTaskSubmit }) => {
+export const Tasklist = ({
+  tasks,
+  name,
+  handleTaskSubmit,
+  handleNameChange,
+  handleNameSubmit,
+  handleDelete,
+}) => {
+  const [edit, setEdit] = useState(false);
+  const handleClick = (e) => {
+    if (edit) handleNameSubmit();
+    setEdit(!edit);
+  };
   return (
     <section className="card-group">
-      <h2>{name}</h2>
-      <ul>
+      <h2>
+        {edit ? (
+          <span>
+            <input
+              type="text"
+              defaultValue={name}
+              onChange={handleNameChange}
+              onKeyUp={(e) => {
+                if (e.keyCode === 13) {
+                  handleClick();
+                }
+              }}
+            />
+          </span>
+        ) : (
+          name
+        )}
+        <button onClick={handleClick}>{edit ? "ok" : "edit"}</button>
+        <button
+          onClick={handleDelete}
+          style={{ visibility: edit ? "visible" : "hidden", display: "inline" }}
+        >
+          x
+        </button>
+      </h2>
+
+      <ul onClick={(e) => e.stopPropagation()}>
         {tasks.map((task) => (
           <li key={task._id}>
             <Link to={`task/${task._id}`}>{task.name}</Link>
@@ -23,6 +65,7 @@ export const Tasklist = ({ tasks, name, handleTaskSubmit }) => {
 const mapStateToProps = (state, ownProps) => {
   let groupID = ownProps.id;
   return {
+    groupID,
     name: ownProps.name,
     owner: ownProps.owner,
     tasks: state.tasks.filter((task) => task.group === groupID),
@@ -36,6 +79,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       e.preventDefault();
       const name = e.target["task"].value;
       dispatch(requestTaskCreation(id, owner, name));
+    },
+    handleNameChange(e) {
+      dispatch({ type: GROUP_NAME, id, name: e.target.value });
+    },
+    handleNameSubmit() {
+      dispatch(setGroupName(id));
+    },
+    handleDelete() {
+      dispatch({ type: REQUEST_DELETE_GROUP, id });
     },
   };
 };

@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 import md5 from 'md5';
-
+import {ObjectID, ObjectId}  from 'mongodb';
 import {connectDB} from './connect-db'; 
 
 export const createUserRoute = app => {
@@ -21,16 +21,16 @@ export const createUserRoute = app => {
             }
         }
 
-        const id = "U " + uuidv4()
+        const _id = `${username}$` + uuidv4()
         const passwordHash = md5(password);
-        
-    
+
         await db.collection("users").insertOne({
-            id,
+            _id,
             name: username,
             passwordHash,
             friends: [],
-        })
+        });
+
 
         return res.status(200).send({flag, error})
 

@@ -1,5 +1,6 @@
 import {connectDB} from './connect-db';
 import {ObjectID}  from 'mongodb';
+import {v4 as uuidv4} from 'uuid';
 
 
 
@@ -16,15 +17,15 @@ export const updateTask = async task => {
     let collection = db.collection("tasks");
     
     if(group){
-        await collection.updateOne({_id: new ObjectID(id)}, {$set:{group}});
+        await collection.updateOne({_id: id}, {$set:{group}});
     }
      
     if(name){
-        await collection.updateOne({_id: new ObjectID(id)}, {$set:{name}});
+        await collection.updateOne({_id: id}, {$set:{name}});
     }
      
     if(isComplete !== undefined){
-        await collection.updateOne({_id: new ObjectID(id)}, {$set:{isComplete}});
+        await collection.updateOne({_id: id}, {$set:{isComplete}});
     }
 }
 
@@ -33,13 +34,13 @@ export const deleteTask = async id => {
 
     const collection = db.collection(`tasks`);
 
-    await collection.deleteOne({_id : new ObjectID(id)});
+    await collection.deleteOne({_id : id});
 }
 export const taskRoute = app => {
     app.post('/task/new', async (req, res) => {
         let task = req.body.task;
-    
-        const newTask = await addNewTask(task);
+        const _id = uuidv4();
+        const newTask = await addNewTask({...task, _id});
         res.status(200).send(newTask);
     });
     
