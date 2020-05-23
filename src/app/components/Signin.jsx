@@ -1,41 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as mutations from "../store/mutations";
+import TextField from "./atomic/TextField";
 
 const Signin = ({ requestSignin, ocuppied }) => (
   <main className="container">
     <h1>Signin</h1>
-    <section>
-      <form
-        onSubmit={requestSignin}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <input
-          type="text"
-          name="username"
-          defaultValue=""
-          placeholder="username"
-        />
-        {ocuppied ? <p>username ocuppied</p> : null}
-        <input
-          type="password"
-          name="password"
-          defaultValue=""
-          placeholder="password"
-        />
-        <input
-          type="password"
-          name="passwordLogin2"
-          defaultValue=""
-          placeholder="repeat password"
-        />
-        <button type="submit">signin</button>
-      </form>
-    </section>
+    <form
+      onSubmit={requestSignin}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <TextField type="text" name="username" label="user" />
+      {ocuppied ? <p>username ocuppied</p> : null}
+      <TextField type="password" name="password" label="password" />
+      <TextField
+        type="password"
+        name="passwordLogin2"
+        label="password repeat"
+      />
+      <button type="submit">signin</button>
+    </form>
   </main>
 );
 

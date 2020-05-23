@@ -44,7 +44,7 @@ export const Tasklist = ({
         <button onClick={handleClick}>{edit ? "ok" : "edit"}</button>
         <button
           onClick={handleDelete}
-          style={{ visibility: edit ? "visible" : "hidden", display: "inline" }}
+          style={{ display: edit ? "inline" : "none" }}
         >
           x
         </button>
