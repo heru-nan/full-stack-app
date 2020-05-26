@@ -6,8 +6,9 @@ import {
   setGroupName,
   REQUEST_DELETE_GROUP,
 } from "../store/mutations";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import FormList from "./FormSection";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Tasklist = ({
   tasks,
@@ -17,6 +18,7 @@ export const Tasklist = ({
   handleNameSubmit,
   handleDelete,
 }) => {
+  const history = useHistory();
   const [edit, setEdit] = useState(false);
   const handleClick = (e) => {
     if (edit) handleNameSubmit();
@@ -24,36 +26,54 @@ export const Tasklist = ({
   };
   return (
     <section className="card-group">
-      <h2>
-        {edit ? (
-          <span>
-            <input
-              type="text"
-              defaultValue={name}
-              onChange={handleNameChange}
-              onKeyUp={(e) => {
-                if (e.keyCode === 13) {
-                  handleClick();
-                }
-              }}
-            />
-          </span>
-        ) : (
-          name
-        )}
-        <button onClick={handleClick}>{edit ? "ok" : "edit"}</button>
-        <button
-          onClick={handleDelete}
-          style={{ display: edit ? "inline" : "none" }}
-        >
-          x
-        </button>
-      </h2>
-
+      <header>
+        <h2 className="header-title">
+          {edit ? (
+            <span>
+              <input
+                type="text"
+                defaultValue={name}
+                onChange={handleNameChange}
+                onKeyUp={(e) => {
+                  if (e.keyCode === 13) {
+                    handleClick();
+                  }
+                }}
+              />
+            </span>
+          ) : (
+            name
+          )}
+        </h2>
+        <div className="header-buttons">
+          <button onClick={handleClick}>
+            {edit ? (
+              <FontAwesomeIcon icon="check" />
+            ) : (
+              <FontAwesomeIcon icon="object-group" />
+            )}
+          </button>
+          <button
+            onClick={handleDelete}
+            style={{ display: edit ? "inline" : "none" }}
+          >
+            <FontAwesomeIcon icon="trash" type />
+          </button>
+        </div>
+      </header>
       <ul onClick={(e) => e.stopPropagation()}>
         {tasks.map((task) => (
-          <li key={task._id}>
-            <Link to={`task/${task._id}`}>{task.name}</Link>
+          <li
+            className="card-element"
+            key={task._id}
+            onClick={() => history.push(`task/${task._id}`)}
+          >
+            <FontAwesomeIcon
+              icon="circle"
+              size="xs"
+              style={{ fontSize: "0.5rem", marginRight: "5px" }}
+            />
+            {task.name}
           </li>
         ))}
         <FormList submit={handleTaskSubmit} />
@@ -78,6 +98,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     handleTaskSubmit(e) {
       e.preventDefault();
       const name = e.target["task"].value;
+      e.target.reset();
       dispatch(requestTaskCreation(id, owner, name));
     },
     handleNameChange(e) {

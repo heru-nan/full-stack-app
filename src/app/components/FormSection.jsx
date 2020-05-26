@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const FormSection = ({ submit }) => {
   const [form, setForm] = useState(false);
@@ -13,12 +14,19 @@ const FormSection = ({ submit }) => {
           setForm(true);
         }}
       >
-        new task
+        add task
+        <FontAwesomeIcon
+          icon="tasks"
+          style={{
+            color: "lightblue",
+            marginLeft: "5px",
+          }}
+        />
       </button>
     </li>
   ) : (
-    <li>
-      <form onSubmit={submit}>
+    <li style={{ position: "relative" }}>
+      <form onSubmit={submit} style={{ display: "flex", flexDirection: "row" }}>
         <input
           ref={textInput}
           type="text"
@@ -26,14 +34,16 @@ const FormSection = ({ submit }) => {
           name="task"
           defaultValue=""
         />
-        <button type="submit">add task</button>
+        <button type="submit">
+          <FontAwesomeIcon icon="check" />
+        </button>
         <button
           type="button"
           onClick={() => setForm(false)}
           value="cancel"
           name="cancel"
         >
-          c
+          <FontAwesomeIcon icon="window-close" />
         </button>
       </form>
     </li>

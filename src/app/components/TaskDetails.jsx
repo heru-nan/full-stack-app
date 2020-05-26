@@ -26,14 +26,14 @@ const TaskDetails = ({
           <br />
           <span style={{ color: "#5eba7d" }}>{task.name}</span>
         </h2>
-        <section>
+        <section className="card-group">
           <h2>change name and state</h2>
           <input value={task.name} onChange={setTaskName} />
           <button onClick={() => changeStateTask(task.isComplete)}>
             {task.isComplete ? `Complete` : `Incomplete`}
           </button>
         </section>
-        <section>
+        <section className="card-group">
           <h2>change group</h2>
           <select onChange={setTaskGroup} value={task.group}>
             {groups.map((group) => (
@@ -43,7 +43,7 @@ const TaskDetails = ({
             ))}
           </select>
         </section>
-        <section>
+        <section className="card-group">
           <h2>comments</h2>
           <form onSubmit={(e) => createComment(e, task.owner)}>
             <input
