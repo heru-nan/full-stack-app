@@ -20,20 +20,21 @@ const TaskDetails = ({
           style={{
             maxWidth: "90%",
             wordWrap: "break-word",
+            textAlign: "center",
           }}
         >
           task details
           <br />
           <span style={{ color: "#5eba7d" }}>{task.name}</span>
         </h2>
-        <section className="card-group">
+        <section className="card-details">
           <h2>change name and state</h2>
           <input value={task.name} onChange={setTaskName} />
           <button onClick={() => changeStateTask(task.isComplete)}>
             {task.isComplete ? `Complete` : `Incomplete`}
           </button>
         </section>
-        <section className="card-group">
+        <section className="card-details">
           <h2>change group</h2>
           <select onChange={setTaskGroup} value={task.group}>
             {groups.map((group) => (
@@ -43,7 +44,7 @@ const TaskDetails = ({
             ))}
           </select>
         </section>
-        <section className="card-group">
+        <section className="card-details">
           <h2>comments</h2>
           <form onSubmit={(e) => createComment(e, task.owner)}>
             <input
@@ -68,9 +69,11 @@ const TaskDetails = ({
         </section>
         <div>
           <Link to="/dashboard">
-            <button>done</button>
+            <button className="normal-button">done</button>
           </Link>
-          <button onClick={deleteTask}>delete</button>
+          <button className="normal-button" onClick={deleteTask}>
+            delete
+          </button>
         </div>
       </main>
     )

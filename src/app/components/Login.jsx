@@ -17,7 +17,9 @@ const Login = ({ authenticateUser, authenticated }) => {
         <span>
           Don't have an account? <Link to="/signin">Sign in</Link>
         </span>
-        <button type="submit">Login</button>
+        <button className="normal-button" type="submit">
+          Login
+        </button>
       </form>
 
       {authenticated === mutations.NOT_AUTHENTICATED ? (

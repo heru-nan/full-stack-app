@@ -17,7 +17,9 @@ export const Dashboard = ({ groups, id, addNewGroup }) => (
         owner={group.owner}
       />
     ))}
-    <button onClick={addNewGroup}>+</button>
+    <button className="normal-button" onClick={addNewGroup}>
+      +
+    </button>
   </main>
 );
 

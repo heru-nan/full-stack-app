@@ -57,7 +57,7 @@ export const Tasklist = ({
             onClick={handleDelete}
             style={{ display: edit ? "inline" : "none" }}
           >
-            <FontAwesomeIcon icon="trash" type />
+            <FontAwesomeIcon icon="trash" />
           </button>
         </div>
       </header>
@@ -99,7 +99,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       e.preventDefault();
       const name = e.target["task"].value;
       e.target.reset();
-      dispatch(requestTaskCreation(id, owner, name));
+      if (name.trim()) {
+        dispatch(requestTaskCreation(id, owner, name));
+      }
     },
     handleNameChange(e) {
       dispatch({ type: GROUP_NAME, id, name: e.target.value });

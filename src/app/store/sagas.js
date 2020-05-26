@@ -109,7 +109,6 @@ export function* taskModificationSaga(){
         
         const tasks = yield select(state => state.tasks.filter(task => task._id === change.taskID));
         const task = tasks[0];
-        console.log(task)
         
         axios.post(`${url}/task/update`, {
             task: {
@@ -156,9 +155,8 @@ export function * userCreationSaga(){
             }else{
 
             yield put(mutations.processCreateUser(mutations.CREATED_USER));
-            alert("USER CREATE");
-            
-            history.push('/');
+
+            yield put({type: mutations.CREATED_USER, username});
             }
         }
         catch(e){

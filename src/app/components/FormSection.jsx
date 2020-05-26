@@ -28,6 +28,7 @@ const FormSection = ({ submit }) => {
     <li style={{ position: "relative" }}>
       <form onSubmit={submit} style={{ display: "flex", flexDirection: "row" }}>
         <input
+          style={{ marginLeft: "2px" }}
           ref={textInput}
           type="text"
           placeholder="task"

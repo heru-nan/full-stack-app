@@ -3,17 +3,18 @@ import * as mutations from './mutations';
 
 
 function session(userSession= {
-     error: [], 
+     error: [], openModal: false
 }, action){
     let {type, authenticated} = action;
     switch(type){
         case mutations.SET_STATE:
-            return {...userSession, id: action.state.session.id, name: action.state.session.name}
-
+            return {...userSession, id: action.state.session.id, name: action.state.session.name, openModal: action.state.session.openModal}
+        case mutations.CREATED_USER:
+            return {...userSession, openModal: true, username: action.username}
         case mutations.PROCESSING_AUTHENTICATED_USER:
             return {...userSession, authenticated}
         case mutations.LOGOUT:
-            return {error: []};
+            return {error: [], openModal: false};
         case mutations.REQUEST_CREATED_USER:
             return {...userSession, user: mutations.CREATING_USER}
         case mutations.PROCESSING_CREATED_USER:
@@ -26,7 +27,7 @@ function session(userSession= {
 function tasks(tasks = [], action){
     switch(action.type){
         case mutations.LOGOUT:
-            return action.clean;
+            return [];
         case mutations.SET_STATE:
             return action.state.tasks;
         case mutations.CREATE_TASK:
@@ -63,7 +64,7 @@ function tasks(tasks = [], action){
 function comments(comments = [], action){
     switch(action.type){
         case mutations.LOGOUT:
-            return action.clean;
+            return [];
         case mutations.SET_STATE:
             return action.state.comments;
         case mutations.CREATE_COMMENT:
@@ -79,6 +80,8 @@ function users(users = [], action){
 
 function groups(groups = [], action){
     switch (action.type) {
+        case mutations.LOGOUT:
+            return [];
         case mutations.SET_STATE:
             if(action.state.groups.length > 0){
                 return action.state.groups;

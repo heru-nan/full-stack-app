@@ -18,7 +18,7 @@ async function assembleUserState(user){
         tasks,
         groups,
         comments,
-        session: {authenticated: `AUTHENTICATED`, id: user._id, name: user.name}
+        session: {authenticated: `AUTHENTICATED`, id: user._id, name: user.name, openModal: false}
     }
 }
 
