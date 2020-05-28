@@ -38,7 +38,7 @@ export const NOT_CREATED_USER = `NOT_CREATED_USER`;
 export const CREATING_USER = `CREATING_USER`
 export const PROCESSING_CREATED_USER = `PROCESSING_CREATED_USER`;
  
-
+export const SET_TOKEN = `SET_TOKEN`;
 
 
 

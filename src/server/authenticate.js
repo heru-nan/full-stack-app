@@ -5,7 +5,7 @@ import {connectDB} from './connect-db';
 
 
 
-const authenticationTokens = [];
+export const authenticationTokens = [];
 
 async function assembleUserState(user){
     let db = await connectDB();
@@ -69,7 +69,7 @@ export const authenticationRoute = app => {
         let token  = uuidv4();
 
         authenticationTokens.push({
-            token, userID: user.id
+            token, userID: user._id
         });
 
         let state = await assembleUserState(user);

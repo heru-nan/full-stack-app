@@ -7,6 +7,8 @@ function session(userSession= {
 }, action){
     let {type, authenticated} = action;
     switch(type){
+        case mutations.SET_TOKEN:
+            return {...userSession, token: action.token}
         case mutations.SET_STATE:
             return {...userSession, id: action.state.session.id, name: action.state.session.name, openModal: action.state.session.openModal}
         case mutations.CREATED_USER:

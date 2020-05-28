@@ -17,8 +17,10 @@ const url = process.env.NODE_ENV === `production` ? ``: "http://localhost:7777";
 export function* groupDeleteSaga(){
     while(true){
         const {id} = yield take([mutations.REQUEST_DELETE_GROUP]);
+        const session = yield select(state => state.session);
         
-        const res = yield axios.post(`${url}/group/delete`, {id});
+        const res = yield axios.post(`${url}/group/delete`, {id, session});
+        
 
         if(res.status=== 200){
             yield put({type: mutations.DELETE_GROUP, id});
@@ -37,7 +39,8 @@ export function* groupCreationSaga(){
 
         try{
             const res =  yield axios.post(`${url}/group/new`, {
-                group
+                group,
+                session
             });
             const newGroup = res.data;
             yield put(mutations.addNewGroup(newGroup));
@@ -57,6 +60,7 @@ export function* groupModificationSaga(){
         ]);
         console.log("change",change)
         const group = yield select(state => state.groups.filter(group => group._id === change.groupID)[0]);
+        const session = yield select(state => state.session);
 
 
         const res = yield axios.post(`${url}/group/update`,{
@@ -64,7 +68,8 @@ export function* groupModificationSaga(){
                 id: group._id,
                 name: group.name,
                 owner: group.owner,
-            }
+            },
+            session
         });
 
         console.log(res);
@@ -80,6 +85,7 @@ export function* groupModificationSaga(){
 export function* taskCreationSaga(){
     while(true){
         const {groupID, ownerID, name} = yield take(mutations.REQUEST_TASK_CREATION);
+        const session = yield select(state => state.session);
 
         const res = yield axios.post(`${url}/task/new`, {
             task: {
@@ -87,7 +93,7 @@ export function* taskCreationSaga(){
                 owner: ownerID,
                 name,
                 isComplete: false
-            }
+            },session
         })
         const taskID = res.data._id;
         yield put(mutations.createTask(groupID, taskID, ownerID, name));
@@ -108,6 +114,7 @@ export function* taskModificationSaga(){
         ]);
         
         const tasks = yield select(state => state.tasks.filter(task => task._id === change.taskID));
+        const session = yield select(state => state.session);
         const task = tasks[0];
         
         axios.post(`${url}/task/update`, {
@@ -116,8 +123,7 @@ export function* taskModificationSaga(){
                 group: task.group,
                 name: task.name,
                 isComplete: task.isComplete,
-
-            }
+            }, session
         })
     }
 }
@@ -126,7 +132,10 @@ export function * taskDeleteSaga(){
     while(true){
         const {id} = yield take(mutations.DELETE_TASK);
        try {
-        const res = yield call(axios.post, `${url}/task/delete`, {id})   
+        const session = yield select(state => state.session);
+
+        const res = yield call(axios.post, `${url}/task/delete`, {id, session})   
+        
         yield put({type: mutations.DELETE_TASK_SUCCESS, id});
         history.push('/dashboard');
 
@@ -180,6 +189,7 @@ export function * userAuthenticationSaga(){
                 console.log(data.state.groups)
             }
         yield put(mutations.setState(data.state));
+        yield put({type: mutations.SET_TOKEN, token: data.token})
 
         yield put(mutations.processAuthenticateUser(mutations.AUTHENTICATED, {}));
 
@@ -196,6 +206,7 @@ export function * userAuthenticationSaga(){
 export function * createCommentSaga(){
     while(true){
         const {taskID, ownerID, content} = yield take(mutations.REQUEST_COMMENT_CREATION);
+        const session = yield select(state => state.session);
 
         const commentID = uuidv4();
         yield put(mutations.createComment(taskID, ownerID, commentID, content));
@@ -203,7 +214,7 @@ export function * createCommentSaga(){
         yield axios.post(`${url}/comment/new`, {
             comment: {
                 _id: commentID, owner: ownerID, task: taskID, content
-            }
+            },session
         });
 
     }
