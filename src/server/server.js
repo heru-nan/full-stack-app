@@ -22,6 +22,7 @@ authenticationRoute(app);
 createUserRoute(app);
 
 app.use((req, res, next) =>{
+    console.log(authenticationTokens);
     if(!req.body.session === false){
         const {token, id} = req.body.session;
 

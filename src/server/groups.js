@@ -15,7 +15,6 @@ export const updateGroup = async group => {
     let db = await connectDB();
     let collection = db.collection("groups");
     
-    console.log(id, name);
      
     if(name){
         await collection.updateOne({_id: id}, {$set:{name}});

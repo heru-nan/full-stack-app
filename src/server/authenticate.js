@@ -68,9 +68,17 @@ export const authenticationRoute = app => {
 
         let token  = uuidv4();
 
-        authenticationTokens.push({
-            token, userID: user._id
-        });
+        const indexRepeatToken = authenticationTokens.map(e => e.userID).indexOf(user._id);
+
+        if(indexRepeatToken !== -1){
+            authenticationTokens[indexRepeatToken] = {
+                token, userID: user._id
+            }
+        }else{    
+            authenticationTokens.push({
+                token, userID: user._id
+            });
+        }
 
         let state = await assembleUserState(user);
 
