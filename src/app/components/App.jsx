@@ -17,7 +17,7 @@ const RouteGuard = (Component) => ({ match }) => {
   }
 };
 
-export const Main = () => (
+export const App = () => (
   <Router history={history}>
     <Provider store={store}>
       <ConnectedNavigation />
@@ -31,4 +31,4 @@ export const Main = () => (
       />
     </Provider>
   </Router>
-);
+);  

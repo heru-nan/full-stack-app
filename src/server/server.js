@@ -2,14 +2,15 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import path from 'path';
-import {connectDB} from './connect-db';
 import './initialize-db';
 import {authenticationRoute, authenticationTokens} from './authenticate';
 import {createUserRoute} from './create-user';
 import { taskRoute } from './tasks';
 import { groupRoute } from './groups';
+import {connectDB} from './connect-db';
 
-const port = process.env.PORT || 7777;
+
+const port = process.env.PORT || 1234;
 const app = express();
 
 app.listen(port, console.log("server listening on port ", port));

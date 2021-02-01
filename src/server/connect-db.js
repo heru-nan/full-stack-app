@@ -1,7 +1,11 @@
 import {MongoClient} from 'mongodb';
-const url = process.env.MONGODB_URI || `mongodb://localhost:27017/myorganizer`;
 
-console.log(url);
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const url = process.env.MONGODB_URI
+
 let db = null;
 
 export async function connectDB(){
@@ -11,6 +15,6 @@ export async function connectDB(){
         useUnifiedTopology: true,
     });
     db = client.db();
-    console.info("Got DB", db);
+    console.info("Got DB", db.s.namespace);
     return db;
 }

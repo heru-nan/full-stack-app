@@ -1,5 +1,4 @@
 import React from "react";
-import "./textfield.css";
 
 export default function TextField({ type, name, label }) {
   return (

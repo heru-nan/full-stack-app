@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as mutations from "../store/mutations";
-import TextField from "./atomic/TextField";
+import TextField from "./chakra/TextField";
 import Modal from "react-modal";
 import { Link, useHistory } from "react-router-dom";
 //
@@ -56,7 +56,7 @@ const Signin = ({ requestSignin, ocuppied, openModal, username }) => {
           alignItems: "center",
         }}
       >
-        <TextField type="text" name="username" label="user" />
+        {/*<TextField type="text" name="username" label="user" />
         {ocuppied ? <p>username ocuppied</p> : null}
         <TextField type="password" name="password" label="password" />
         <TextField
@@ -64,6 +64,7 @@ const Signin = ({ requestSignin, ocuppied, openModal, username }) => {
           name="passwordLogin2"
           label="password repeat"
         />
+      */}
         <button className="normal-button" type="submit">
           signin
         </button>

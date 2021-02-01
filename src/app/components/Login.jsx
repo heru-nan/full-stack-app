@@ -1,25 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as mutations from "../store/mutations";
-import { Link } from "react-router-dom";
-import TextField from "./atomic/TextField";
+
+import InputPassword from './chakra/IPassword';
+import InputUsername from './chakra/IUser';
+import LabelSignin from './chakra/LSignin';
+import {Button, Heading, Divider} from '@chakra-ui/react'
 
 const Login = ({ authenticateUser, authenticated }) => {
   return (
     <div className="container">
-      <h2>
-        Groups Tasks & Comments <small>Login</small>
-      </h2>
+      <Heading>
+        Groups, Tasks & Comments
+      </Heading>
 
-      <form onSubmit={authenticateUser}>
-        <TextField type="text" name="username" label="user" />
-        <TextField type="password" name="password" label="password" />
-        <span>
-          Don't have an account? <Link to="/signin">Sign in</Link>
-        </span>
-        <button className="normal-button" type="submit">
+      <Divider orientation="horizontal" />
+
+      <form className="container" onSubmit={authenticateUser}>
+        <InputUsername name="username" />
+        <InputPassword name="password" />
+
+        <LabelSignin />
+        <Button colorScheme="teal" variant="solid" type="submit">
           Login
-        </button>
+        </Button>
       </form>
 
       {authenticated === mutations.NOT_AUTHENTICATED ? (
