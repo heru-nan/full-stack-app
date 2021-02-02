@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as mutations from "../store/mutations";
 
+import {Heading, Box, Input, Button,Divider, Select, UnorderedList, ListItem} from '@chakra-ui/react'
+
 const TaskDetails = ({
   comments,
   task,
@@ -16,69 +18,83 @@ const TaskDetails = ({
   return (
     task && (
       <main className="container">
-        <h2
-          style={{
-            maxWidth: "90%",
-            wordWrap: "break-word",
-            textAlign: "center",
-          }}
+        <Heading
         >
-          task details
+          Task details: 
           <br />
-          <span style={{ color: "#5eba7d" }}>{task.name}</span>
-        </h2>
-        <section className="card-details">
-          <h2>change name and state</h2>
-          <input value={task.name} onChange={setTaskName} />
-          <button onClick={() => changeStateTask(task.isComplete)}>
+          <span style={{ color: "#5eba7d" }}>{task.name.length > 20? task.name.slice(0, 19) + "...": task.name}</span>
+        </Heading>
+        <Divider orientation="horizontal" />
+
+        <CardDetails>
+          <Heading size="l">Name && State</Heading>
+          <Input size="l" m="1%" p="0.5%" borderRadius="md" value={task.name} onChange={setTaskName} />
+          <Button m="1%" bg="green.200" color="teal.800" size="xs" onClick={() => changeStateTask(task.isComplete)}>
             {task.isComplete ? `Complete` : `Incomplete`}
-          </button>
-        </section>
-        <section className="card-details">
-          <h2>change group</h2>
-          <select onChange={setTaskGroup} value={task.group}>
+          </Button>
+        </CardDetails>
+
+        <CardDetails>
+        <Heading size="l">Group</Heading>
+          <Select size="xs" onChange={setTaskGroup} value={task.group}>
             {groups.map((group) => (
               <option key={group._id} value={group._id}>
                 {group.name}
               </option>
             ))}
-          </select>
-        </section>
-        <section className="card-details">
-          <h2>comments</h2>
+          </Select>
+        </CardDetails>
+
+        <CardDetails>
+          <Heading size="l">Comment</Heading>
           <form onSubmit={(e) => createComment(e, task.owner)}>
-            <input
+            <Input
               type="text"
-              placeholder="comment"
+              placeholder="Write your comment"
               name="comment"
               defaultValue=""
+              size="xs"
+              m="1%" p="0.5%"
+              borderRadius="md"
             />
-            <button type="submit">add comment</button>
+            <Button size="xs" m="1%" bg="green.200" color="teal.800" type="submit">Add comment</Button>
           </form>
-          <ul>
+          <UnorderedList ml="10%">
             {comments.map((e) => {
               if (e.task === task._id) {
                 return (
-                  <li key={e._id}>
+                  <ListItem key={e._id}>
                     <p>{e.content}</p>
-                  </li>
+                  </ListItem>
                 );
               }
             })}
-          </ul>
-        </section>
-        <div>
+          </UnorderedList>
+       </CardDetails>
+
+        <Box m="2%" d="flex" justifyContent="space-between">
           <Link to="/dashboard">
-            <button className="normal-button">done</button>
+            <Button size="xs" m="1%" bg="green.200" color="teal.800">Done</Button>
           </Link>
-          <button className="normal-button" onClick={deleteTask}>
-            delete
-          </button>
-        </div>
+          <Button size="xs" m="1%" bg="red.200" color="teal.800" onClick={deleteTask}>
+            Delete
+          </Button>
+        </Box>
       </main>
     )
   );
 };
+
+const CardDetails = ({children}) => (
+  <Box as="section"
+          m="2%"
+          p={5}
+          shadow="md"
+          borderWidth="1px"
+          flex="1"
+          borderRadius="md"
+    >{children}</Box>
+) 
 
 const mapStateToProps = (state, ownProps) => {
   let id = ownProps.match.params._id;

@@ -10,8 +10,8 @@ import { Link, useHistory } from "react-router-dom";
 
 import AddTask from "./FormSection";
 
-import {} from '@chakra-ui/react';
-import { Box, Divider, Heading, List, ListItem } from "@chakra-ui/react"
+import { Divider } from '@chakra-ui/react';
+import { Box, Text, Heading, List, ListItem } from "@chakra-ui/react"
 
 export const Tasklist = ({
   tasks,
@@ -41,19 +41,24 @@ export const Tasklist = ({
             name
           }
         </Heading>
-        
       <List className="container" m={0} mt="1%" mb="1%" onClick={(e) => e.stopPropagation()}>
         {tasks.map((task) => (
           <ListItem
             key={task._id}
-            onClick={() => history.push(`task/${task._id}`)}
-            bg="green.200"
+            textAlign="left"
+            as="button"
+            shadow="xs"
+            borderWidth="1px"
+            flex="1"
             borderRadius="md"
-            mt="0.3%"
-            mb="0.3%"
+            p="1%"
+            onClick={() => history.push(`task/${task._id}`)}
+            mt="0.5%"
+            mb="0.5%"
           >
-            {"  -> " + task.name}
-            <Divider orientation="horizontal" />
+            <Text>
+            {task.name.length > 30? task.name.slice(0, 30) + "...": task.name}
+            </Text>
           </ListItem>
         ))}
 
@@ -81,9 +86,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     handleTaskSubmit(e) {
       e.preventDefault();
       const name = e.target["task"].value;
+      const formatTask = name[0].toUpperCase() + name.slice(1);
       e.target.reset();
       if (name.trim()) {
-        dispatch(requestTaskCreation(id, owner, name));
+        dispatch(requestTaskCreation(id, owner, formatTask));
       }
     },
     handleNameChange(e) {

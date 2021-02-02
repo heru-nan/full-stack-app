@@ -11,12 +11,14 @@ const FormSection = ({ submit }) => {
     <form onSubmit={submit} style={{ display: "flex", flexDirection: "row" }}>
         <InputGroup size="xs">
         <Input
+                borderRadius="md"
                 pr="4.5rem"
                 type={"text"}
                 placeholder="Enter task"
                 value={taskValue}
                 onChange={(e) => setTaskValue(e.target.value)}
                 onClick={()=>setInput(true)}
+                name="task"
               />
         {
           inInput && 

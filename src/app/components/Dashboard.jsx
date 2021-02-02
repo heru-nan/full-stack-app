@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { ConnectedTasklist } from "./Tasklist";
 import { ConnectedUsername } from "./Username";
 import * as mutations from "../store/mutations";
-import { Heading, Divider } from "@chakra-ui/react";
+import { Heading, Divider, Button } from "@chakra-ui/react";
 
 export const Dashboard = ({ groups, id, addNewGroup }) => (
   <main className="container">
@@ -21,9 +21,9 @@ export const Dashboard = ({ groups, id, addNewGroup }) => (
         owner={group.owner}
       />
     ))}
-    <button className="normal-button" onClick={addNewGroup}>
+    <Button m="2%" onClick={addNewGroup}>
       +
-    </button>
+    </Button>
     </div>
   </main>
 );
