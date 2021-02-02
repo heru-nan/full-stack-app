@@ -57,7 +57,7 @@ export const Tasklist = ({
             mb="0.5%"
           >
             <Text>
-            {task.name.length > 30? task.name.slice(0, 30) + "...": task.name}
+            {task.name.length > 50? task.name.slice(0, 50) + "...": task.name}
             </Text>
           </ListItem>
         ))}

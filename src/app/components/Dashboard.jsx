@@ -8,7 +8,7 @@ import { Heading, Divider, Button } from "@chakra-ui/react";
 export const Dashboard = ({ groups, id, addNewGroup }) => (
   <main className="container">
     <Heading style={{ display: "inline" }}>
-      Dashboard by <ConnectedUsername id={id} />
+      Organizer by <ConnectedUsername id={id} />
     </Heading>
     <Divider orientation="horizontal" />
 
@@ -35,7 +35,7 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
-  dispatch(mutations.requestAuthenticateUser("hernan", "hernan")); //dev
+  //dispatch(mutations.requestAuthenticateUser("Invitado", "Invitado")); //dev
 
   return {
     logout() {

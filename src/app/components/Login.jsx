@@ -17,8 +17,8 @@ const Login = ({ authenticateUser, authenticated }) => {
       <Divider orientation="horizontal" />
 
       <form className="container" onSubmit={authenticateUser}>
-        <InputUsername name="username" />
-        <InputPassword label="Password" name="password" />
+        <InputUsername name="username" defaultValue="Invitado" />
+        <InputPassword label="Password" defaultValue="Invitado" name="password" />
 
         <LabelSignin />
         <Button colorScheme="teal" variant="solid" type="submit">
