@@ -10,6 +10,7 @@ import { ConnectedLogin } from "./Login";
 import { ConnectedSignin } from "./Signin";
 
 const RouteGuard = (Component) => ({ match }) => {
+  return <Component match={match} />
   if (!store.getState().session.authenticated) {
     return <Redirect to="/" />;
   } else {

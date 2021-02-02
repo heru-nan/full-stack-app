@@ -4,6 +4,11 @@ import * as mutations from "../store/mutations";
 import TextField from "./chakra/TextField";
 import Modal from "react-modal";
 import { Link, useHistory } from "react-router-dom";
+
+import InputPassword from './chakra/IPassword';
+import InputUsername from './chakra/IUser';
+import LabelSignin from './chakra/LSignin';
+import {Button, Heading, Divider} from '@chakra-ui/react'
 //
 
 const customStyles = {
@@ -47,27 +52,21 @@ const Signin = ({ requestSignin, ocuppied, openModal, username }) => {
           </button>
         </div>
       </Modal>
-      <h1>Signin</h1>
+      <Heading>Sign Up</Heading>
+      <Divider orientation="horizontal" />
+
       <form
         onSubmit={requestSignin}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+        className="container"
       >
-        {/*<TextField type="text" name="username" label="user" />
-        {ocuppied ? <p>username ocuppied</p> : null}
-        <TextField type="password" name="password" label="password" />
-        <TextField
-          type="password"
-          name="passwordLogin2"
-          label="password repeat"
-        />
-      */}
-        <button className="normal-button" type="submit">
-          signin
-        </button>
+        <InputUsername name="username" />
+        <InputPassword label="Password" name="password" />
+        <InputPassword label="Repeat password" name="password2" />
+
+        <Button colorScheme="teal" variant="solid" type="submit">
+          Signin
+        </Button>
+
       </form>
       <div id="mymodal"></div>
     </main>
@@ -85,6 +84,9 @@ const mapDispatchToProps = (dispatch) => ({
     e.preventDefault();
     const username = e.target["username"].value;
     const password = e.target["password"].value;
+    console.log(e.target);
+    console.log(e.target["password"]);
+
     if (username.length > 1 && password.length > 2) {
       return dispatch(mutations.requestCreateUser(username, password));
     }

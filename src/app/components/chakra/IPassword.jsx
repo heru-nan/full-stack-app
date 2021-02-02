@@ -6,8 +6,8 @@ export default function PasswordInput({...props}) {
     const handleClick = () => setShow(!show)
   
     return (
-      <FormControl id="password" isRequired>
-       <FormLabel>Password</FormLabel>
+      <FormControl id="form-password" mb="2%" isRequired>
+       <FormLabel>{props.label}</FormLabel>
       <InputGroup size="md">
         <Input
           {...props}

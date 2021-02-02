@@ -9,9 +9,10 @@ import { ChakraProvider } from "@chakra-ui/react"
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faCheckSquare, faCoffee, faTrash, faObjectGroup, faCheck, faTimes, faWindowClose, faTasks, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare, faCoffee, faTrash, faObjectGroup, faCheck,
+         faTimes, faWindowClose, faTasks, faCircle, faCog } from '@fortawesome/free-solid-svg-icons'
 
-library.add(fab, faCheckSquare, faCoffee, faTrash, faObjectGroup, faCheck, faTimes, faWindowClose, faTasks, faCircle)
+library.add(fab, faCheckSquare, faCoffee, faTrash, faObjectGroup, faCheck, faTimes, faWindowClose, faTasks, faCircle, faCog)
 
 ReactDOM.render(
     <ChakraProvider>

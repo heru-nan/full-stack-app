@@ -1,53 +1,44 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Divider, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 
 const FormSection = ({ submit }) => {
-  const [form, setForm] = useState(false);
+  const [inInput, setInput] = useState(false);
+  const [taskValue, setTaskValue] = useState("")
   const textInput = useRef(null);
-  useEffect(() => {
-    if (textInput.current) textInput.current.focus();
-  }, [form]);
-  return !form ? (
-    <li>
-      <button
-        onClick={() => {
-          setForm(true);
-        }}
-      >
-        add task
-        <FontAwesomeIcon
-          icon="tasks"
-          style={{
-            color: "lightblue",
-            marginLeft: "5px",
-          }}
-        />
-      </button>
-    </li>
-  ) : (
-    <li style={{ position: "relative" }}>
-      <form onSubmit={submit} style={{ display: "flex", flexDirection: "row" }}>
-        <input
-          style={{ marginLeft: "2px" }}
-          ref={textInput}
-          type="text"
-          placeholder="task"
-          name="task"
-          defaultValue=""
-        />
-        <button type="submit">
-          <FontAwesomeIcon icon="check" />
-        </button>
-        <button
-          type="button"
-          onClick={() => setForm(false)}
-          value="cancel"
-          name="cancel"
-        >
-          <FontAwesomeIcon icon="window-close" />
-        </button>
+
+  return (
+    <form onSubmit={submit} style={{ display: "flex", flexDirection: "row" }}>
+        <InputGroup size="xs">
+        <Input
+                pr="4.5rem"
+                type={"text"}
+                placeholder="Enter task"
+                value={taskValue}
+                onChange={(e) => setTaskValue(e.target.value)}
+                onClick={()=>setInput(true)}
+              />
+        {
+          inInput && 
+          <InputRightElement>        
+            <Button type="submit" color="green.500" >
+                <FontAwesomeIcon icon="check" />
+            </Button>
+            <Button   
+                      type="button"
+                      onClick={(e) => {
+                        setTaskValue("");
+                        setInput(false);
+                      }}
+                      name="cancel"
+                      color="green.500"
+                    >
+                      <FontAwesomeIcon icon="window-close" />
+            </Button>
+          </InputRightElement>
+        }
+        </InputGroup>
       </form>
-    </li>
   );
 };
 

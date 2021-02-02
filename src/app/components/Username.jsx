@@ -2,7 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 const Username = ({ name }) => {
-  return <span style={{ color: "#5eba7d" }}>{name}</span>;
+  const formatName = () => name[0].toUpperCase() + name.slice(1);
+  return <span style={{ color: "#5eba7d" }}>{name?formatName():"..."}</span>;
 };
 
 const mapStateToProps = (state, ownProps) => {

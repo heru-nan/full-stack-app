@@ -11,14 +11,14 @@ const Login = ({ authenticateUser, authenticated }) => {
   return (
     <div className="container">
       <Heading>
-        Groups, Tasks & Comments
+        Login
       </Heading>
 
       <Divider orientation="horizontal" />
 
       <form className="container" onSubmit={authenticateUser}>
         <InputUsername name="username" />
-        <InputPassword name="password" />
+        <InputPassword label="Password" name="password" />
 
         <LabelSignin />
         <Button colorScheme="teal" variant="solid" type="submit">

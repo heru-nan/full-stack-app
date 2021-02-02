@@ -7,8 +7,11 @@ import {
   REQUEST_DELETE_GROUP,
 } from "../store/mutations";
 import { Link, useHistory } from "react-router-dom";
-import FormList from "./FormSection";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import AddTask from "./FormSection";
+
+import {} from '@chakra-ui/react';
+import { Box, Divider, Heading, List, ListItem } from "@chakra-ui/react"
 
 export const Tasklist = ({
   tasks,
@@ -25,60 +28,40 @@ export const Tasklist = ({
     setEdit(!edit);
   };
   return (
-    <section className="card-group">
-      <header>
-        <h2 className="header-title">
-          {edit ? (
-            <span>
-              <input
-                type="text"
-                defaultValue={name}
-                onChange={handleNameChange}
-                onKeyUp={(e) => {
-                  if (e.keyCode === 13) {
-                    handleClick();
-                  }
-                }}
-              />
-            </span>
-          ) : (
+    <Box as="section"
+          m="2%"
+          p={5}
+          shadow="md"
+          borderWidth="1px"
+          flex="1"
+          borderRadius="md"
+    >
+        <Heading size="l">
+          {
             name
-          )}
-        </h2>
-        <div className="header-buttons">
-          <button onClick={handleClick}>
-            {edit ? (
-              <FontAwesomeIcon icon="check" />
-            ) : (
-              <FontAwesomeIcon icon="object-group" />
-            )}
-          </button>
-          <button
-            onClick={handleDelete}
-            style={{ display: edit ? "inline" : "none" }}
-          >
-            <FontAwesomeIcon icon="trash" />
-          </button>
-        </div>
-      </header>
-      <ul onClick={(e) => e.stopPropagation()}>
+          }
+        </Heading>
+        
+      <List className="container" m={0} mt="1%" mb="1%" onClick={(e) => e.stopPropagation()}>
         {tasks.map((task) => (
-          <li
-            className="card-element"
+          <ListItem
             key={task._id}
             onClick={() => history.push(`task/${task._id}`)}
+            bg="green.200"
+            borderRadius="md"
+            mt="0.3%"
+            mb="0.3%"
           >
-            <FontAwesomeIcon
-              icon="circle"
-              size="xs"
-              style={{ fontSize: "0.5rem", marginRight: "5px" }}
-            />
-            {task.name}
-          </li>
+            {"  -> " + task.name}
+            <Divider orientation="horizontal" />
+          </ListItem>
         ))}
-        <FormList submit={handleTaskSubmit} />
-      </ul>
-    </section>
+
+      </List>
+
+      <AddTask submit={handleTaskSubmit} />
+
+    </Box>
   );
 };
 

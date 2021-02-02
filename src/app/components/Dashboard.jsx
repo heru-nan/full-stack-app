@@ -3,12 +3,16 @@ import { connect } from "react-redux";
 import { ConnectedTasklist } from "./Tasklist";
 import { ConnectedUsername } from "./Username";
 import * as mutations from "../store/mutations";
+import { Heading, Divider } from "@chakra-ui/react";
 
 export const Dashboard = ({ groups, id, addNewGroup }) => (
   <main className="container">
-    <h1 style={{ display: "inline" }}>
+    <Heading style={{ display: "inline" }}>
       Dashboard by <ConnectedUsername id={id} />
-    </h1>
+    </Heading>
+    <Divider orientation="horizontal" />
+
+    <div className="container">
     {groups.map((group) => (
       <ConnectedTasklist
         key={group._id}
@@ -20,6 +24,7 @@ export const Dashboard = ({ groups, id, addNewGroup }) => (
     <button className="normal-button" onClick={addNewGroup}>
       +
     </button>
+    </div>
   </main>
 );
 
@@ -30,6 +35,8 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
+  dispatch(mutations.requestAuthenticateUser("hernan", "hernan")); //dev
+
   return {
     logout() {
       dispatch(mutations.requestLogut());

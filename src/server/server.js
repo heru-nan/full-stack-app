@@ -10,7 +10,7 @@ import { groupRoute } from './groups';
 import {connectDB} from './connect-db';
 
 
-const port = process.env.PORT || 1234;
+const port = process.env.PORT || 7777;
 const app = express();
 
 app.listen(port, console.log("server listening on port ", port));
